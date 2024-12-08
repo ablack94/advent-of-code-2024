@@ -12,11 +12,6 @@ def calculate_antinodes(a1, a2):
     n1 = ((x2 + dx), (y2 + dy))
     n2 = ((x1 - dx), (y1 - dy))
 
-    # print(f"x1 {x1} y1 {y1}")
-    # print(f"x2 {x2} y2 {y2}")
-    # print(f"dx {dx} dy {dy}")
-    # print(f"n1 {n1} n2 {n2}")
-
     return (n1, n2)
 
 
