@@ -14,14 +14,34 @@ def step(pos: Point, velocity: Velocity, size: Point):
     )
     return next_pos
 
-def simulate(robots, steps, size: Point):
+def print_grid(positions: list[Point], size: Point):
+    grid = [
+        ['.'] * size.x
+        for _ in range(0, size.y)
+    ]
+    for pos in positions:
+        grid[pos.y][pos.x] = '*'
+    
+    for y in range(0, size.y):
+        print(''.join(grid[y]))
+
+def simulate(robots, size: Point):
     velocities = [velocity for (_, velocity) in robots]
     positions = [pos for (pos, _) in robots]
-    for _ in range(0, steps):
+
+    steps = 0
+    while True:
         for idx in range(0, len(positions)):
             positions[idx] = step(positions[idx], velocities[idx], size)
+        steps += 1
+        
+        upos = set(positions)
+        if len(positions) == len(upos):
+            break
 
-    return positions
+    print_grid(positions, size)
+
+    return steps
 
 def count_by_quadrant(positions: list[Point], size: Point):
     cx, cy = size.x // 2, size.y // 2
@@ -37,6 +57,7 @@ def count_by_quadrant(positions: list[Point], size: Point):
     return reduce(lambda x, y: x * y, quads.values())
 
 
+
 def main():
     robots = []
     for line in (y for y in (x.strip() for x in sys.stdin) if y):
@@ -47,8 +68,8 @@ def main():
 
     dimensions = Point(101, 103)
 
-    positions = simulate(robots, 100, dimensions)
-    print(count_by_quadrant(positions, dimensions))
+    print(simulate(robots, dimensions))
+
 
 
 if __name__ == "__main__":
